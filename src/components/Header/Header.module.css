@@ -1,0 +1,12 @@
+.header {
+    padding: 20px;
+
+  box-shadow: rgb(120, 125, 131) 0px 10px 30px -10px;
+}
+
+.navLinks{
+    display: flex;
+    gap: 10px;
+
+
+}

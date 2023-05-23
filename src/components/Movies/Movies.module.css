@@ -1,0 +1,24 @@
+.moviesLink {
+    padding: 10px;
+
+   
+}
+/* 
+.moviesLink:active {
+     color: orange;
+ } */
+
+
+ .moviesList {
+    display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    flex-direction: column;
+ }
+
+.movieImg {
+        width: 250px;
+            height: 400px;
+ }  
+
+ 
