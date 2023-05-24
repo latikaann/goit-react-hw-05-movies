@@ -1,0 +1,17 @@
+.reviewsList{
+        display: flex;
+            flex-direction: column;
+            gap: 20px;
+}
+.reviewsItem{
+    padding: 20px;
+}
+.reviewsText{
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+.reviewsContent{
+    padding: 20px;
+}

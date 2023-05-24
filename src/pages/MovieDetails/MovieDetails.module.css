@@ -1,5 +1,5 @@
 .movieTextBox{
-    margin-top: 50px;
+    
     display: flex;
     gap: 40px;
 }
@@ -30,4 +30,24 @@
 .textRateTitle {
     color: #8c8c8c;
     font-weight: 600;
+}
+
+.movieDetailsBox{
+    padding: 40px;
+}
+
+.movieAddInfo{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+        gap: 50px;
+        font-size: 30px;
+        font-weight: 700;
+        justify-content: space-around;
+        font: italic 700 40px Georgia, Serif;
+        text-shadow: 0 0 7px #282f8f;
+}
+
+.movieAddInfo a:hover,.movieAddInfo a:focus{
+    color: #282f8f;
 }

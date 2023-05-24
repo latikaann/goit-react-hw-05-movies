@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Suspense, useEffect, useState } from 'react';
 import { fetchMoviesById } from 'api/fetchMovies';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Outlet } from 'react-router-dom';
 import css from './MovieDetails.module.css';
 
 const BASE_URL = 'https://api.themoviedb.org/3/';
@@ -34,9 +34,9 @@ const MovieDetails = () => {
   }
   const genreNames = movie.genres.map(genre => genre.name);
   // console.log(genreNames);
-  console.log(movie);
+  // console.log(movie);
   return (
-    <div>
+    <div className={css.movieDetailsBox}>
       <div className={css.movieTextBox}>
         <img
           className={css.movieImage}
@@ -72,11 +72,11 @@ const MovieDetails = () => {
           </ul>
         </div>
       </div>
-      <div>
-        <p>Additional information</p>
+      <div className={css.movieAddInfo}>
         <Link to={'Cast'}>Cast</Link>
         <Link to={'Reviews'}>Reviews</Link>
       </div>
+      <Outlet />
     </div>
   );
 };

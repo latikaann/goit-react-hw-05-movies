@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #c9e9f3;
 }
 
 code {
@@ -17,10 +18,10 @@ html {
   box-sizing: border-box;
   scroll-behavior: smooth;
 
-  @media screen and (min-width: 900px) {
+  /* @media screen and (min-width: 900px) {
     margin-left: calc(100vw - 100%);
     margin-right: 0;
-  }
+  } */
 }
 
 *,
