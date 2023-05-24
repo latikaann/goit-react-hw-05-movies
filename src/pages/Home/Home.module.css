@@ -1,0 +1,13 @@
+.homeLink{
+    padding: 10px;
+}
+
+.homeTitle{
+    padding: 20px;
+    color: #010607;
+    cursor: default;
+    font-weight: 600;
+    font: italic 700 40px Georgia, Serif;
+         
+text-shadow: 0 0 7px #282f8f;
+}

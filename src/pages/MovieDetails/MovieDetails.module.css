@@ -1,0 +1,33 @@
+.movieTextBox{
+    margin-top: 50px;
+    display: flex;
+    gap: 40px;
+}
+.movieText{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.movieTitle{
+        font-size: 40px;
+            font-weight: 700;
+            text-shadow: 0 0 7px #282f8f;
+}
+
+.genresList{
+    display: flex;
+    gap: 5px;
+}
+.movieImage {
+    width: 400px;
+}
+.movieRate{
+    display: flex;
+        flex-direction: column;
+        gap: 5px;
+}
+
+.textRateTitle {
+    color: #8c8c8c;
+    font-weight: 600;
+}

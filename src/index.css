@@ -36,9 +36,9 @@ ul {
 }
 
 a {
-  /* text-decoration: none; */
+  text-decoration: none;
   display: block;
-  /* color: inherit; */
+  color: inherit;
 }
 
 h1,
@@ -57,3 +57,5 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+
