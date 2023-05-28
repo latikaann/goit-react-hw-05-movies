@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import css from './Movies.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { nanoid } from 'nanoid';
