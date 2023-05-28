@@ -1,11 +1,15 @@
-import axios from 'axios';
 import React, { Suspense, useEffect, useState } from 'react';
-import { fetchMoviesById } from 'api/fetchMovies';
-import { Link, useParams, Outlet } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import css from './MovieDetails.module.css';
+import Button from '../../components/Button/Button';
+import { fetchMoviesById } from '../../api/API';
 
-const BASE_URL = 'https://api.themoviedb.org/3/';
-const API_KEY = 'e15851bc8e92542ba910284fa71ae7c4';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const DEFAULT_POSTER_URL =
   'https://motivatevalmorgan.com/wp-content/uploads/2016/06/default-movie.jpg';
@@ -13,30 +17,27 @@ const DEFAULT_POSTER_URL =
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        const response = await axios.get(
-          `${BASE_URL}movie/${movieId}?api_key=${API_KEY}`
-        );
-        setMovie(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchMovie();
+    fetchMoviesById(movieId).then(res => {
+      setMovie(res);
+    });
   }, [movieId]);
 
   if (!movie) {
-    return <div>Loading...</div>;
+    return;
   }
   const genreNames = movie.genres.map(genre => genre.name);
-  // console.log(genreNames);
-  // console.log(movie);
+
+  const handleBackClick = () => {
+    navigate(location.state?.from || '/');
+  };
+
   return (
     <div className={css.movieDetailsBox}>
+      <Button onClick={handleBackClick}>Back</Button>
       <div className={css.movieTextBox}>
         <img
           className={css.movieImage}
@@ -73,10 +74,17 @@ const MovieDetails = () => {
         </div>
       </div>
       <div className={css.movieAddInfo}>
-        <Link to={'Cast'}>Cast</Link>
-        <Link to={'Reviews'}>Reviews</Link>
+        <Link state={location.state} to={'Cast'}>
+          Cast
+        </Link>
+        <Link state={location.state} to={'Reviews'}>
+          Reviews
+        </Link>
       </div>
-      <Outlet />
+
+      <Suspense>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };

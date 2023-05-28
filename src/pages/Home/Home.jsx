@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import css from './Home.module.css';
-import { fetchTrendingMovies } from 'api/fetchMovies';
+import { fetchTrendingMovies } from 'api/API';
 import MoviesItem from 'pages/Movies/MoviesItem';
 
 const Home = () => {

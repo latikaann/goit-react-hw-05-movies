@@ -60,3 +60,7 @@ img {
 }
 
 
+.active {
+  color: white;
+    background-color: #282f8f;
+}
