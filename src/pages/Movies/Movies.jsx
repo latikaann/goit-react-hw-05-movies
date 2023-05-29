@@ -5,6 +5,7 @@ import css from './Movies.module.css';
 import MoviesItem from './MoviesItem';
 import Button from 'components/Button/Button';
 import { searchMovies } from '../../api/API';
+import { useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
   const [query, setQuery] = useState('');
@@ -12,14 +13,18 @@ const Movies = () => {
   const [searchQuery, setSearchQuery] = useState();
   const [page, setPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log('query', query, 'searchQuery', searchQuery);
 
   useEffect(() => {
-    if (searchQuery) {
-      searchMovies(searchQuery).then(res => {
-        setMovies(res.results);
-      });
+    const query = searchParams.get('query');
+    if (!query) {
+      return;
     }
-  }, [searchQuery]);
+    searchMovies(query).then(res => {
+      setMovies(res.results);
+    });
+  }, [searchParams]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -60,6 +65,7 @@ const Movies = () => {
     setSearchQuery(query);
     setTotalMovies(totalMovies);
     setQuery('');
+    setSearchParams({ query });
   };
 
   const handleChange = event => {
@@ -118,7 +124,9 @@ const Movies = () => {
         </form>
         <MoviesItem movies={movies} />
         {movies.length > 0 && !hideBtn && (
-          <Button onClick={onLoadMore}>Load more</Button>
+          <Button onClick={onLoadMore} className={'movieBtn'}>
+            Load more
+          </Button>
         )}
         <ToastContainer />
       </div>
