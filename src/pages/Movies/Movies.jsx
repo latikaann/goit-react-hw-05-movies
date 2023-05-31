@@ -8,100 +8,64 @@ import { searchMovies } from '../../api/API';
 import { useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
-  const [query, setQuery] = useState('');
+  // const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
-  const [searchQuery, setSearchQuery] = useState();
+  // const [searchQuery, setSearchQuery] = useState();
   const [page, setPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log('query', query, 'searchQuery', searchQuery);
 
   useEffect(() => {
     const query = searchParams.get('query');
     if (!query) {
       return;
     }
-    searchMovies(query).then(res => {
-      setMovies(res.results);
+    searchMovies(query, page).then(res => {
+      if (res.length === 0) {
+        toast.error('No movies found. Please try a different search query.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+        return;
+      }
+      setMovies(prevMovies => [...prevMovies, ...res.results]);
+      setTotalMovies(res.total_results);
     });
-  }, [searchParams]);
+  }, [searchParams, page]);
 
-  const handleSubmit = async event => {
+  const handleSubmit = event => {
     event.preventDefault();
+    setPage(1);
+    setMovies([]);
+    setSearchParams({ query: event.target.searchQuery.value });
+  };
 
-    if (query === '') {
-      toast.info('Please, fill in the field', {
-        position: 'top-right',
+  const onLoadMore = () => {
+    if (totalMovies === movies.length) {
+      toast.info("We're sorry, but you've reached the end of search results.", {
+        position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'colored',
+        theme: 'light',
       });
       return;
     }
 
-    const response = await searchMovies(query);
-    const movies = response.results;
-    const totalMovies = response.total_pages;
-
-    if (movies.length === 0) {
-      toast.error('No movies found. Please try a different search query.', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
-    }
-
-    setMovies(movies);
-    setPage(1);
-    setSearchQuery(query);
-    setTotalMovies(totalMovies);
-    setQuery('');
-    setSearchParams({ query });
+    setPage(prevPage => prevPage + 1);
   };
 
-  const handleChange = event => {
-    setQuery(event.target.value.trim());
-  };
+  const hideBtn = movies.length === totalMovies;
 
-  const onLoadMore = async e => {
-    try {
-      const response = await searchMovies(searchQuery, page + 1);
-      const newMovies = response.results;
-      setMovies(prevMovies => [...prevMovies, ...newMovies]);
-      setPage(prevPage => prevPage + 1);
-
-      if (totalMovies - 1 === page) {
-        toast.info(
-          "We're sorry, but you've reached the end of search results.",
-          {
-            position: 'bottom-center',
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-          }
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const hideBtn = page === totalMovies;
-
-  // console.log(movies);
   return (
     <Suspense>
       <div className={css.moviesBox}>
@@ -113,14 +77,10 @@ const Movies = () => {
             autoComplete="off"
             autoFocus
             placeholder="Search movies..."
-            value={query}
-            onChange={handleChange}
+            // value={query}
+            // onChange={handleChange}
           />
-          <button
-            className={css.movieBtn}
-            type="submit"
-            onClick={handleSubmit}
-          ></button>
+          <button className={css.movieBtn} type="submit"></button>
         </form>
         <MoviesItem movies={movies} />
         {movies.length > 0 && !hideBtn && (
